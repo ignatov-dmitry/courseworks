@@ -1,2 +1,3 @@
 _docker/postgres
 .idea
+.env

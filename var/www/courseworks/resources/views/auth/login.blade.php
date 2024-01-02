@@ -35,7 +35,9 @@
                     {{ __('Забыли пароль?') }}
                 </a>
             @endif
-
+            <p class="px-4"><a href="{{ route('register') }}">
+                    {{ __('Регистрация') }}
+                </a></p>
             <x-primary-button class="ms-3">
                 {{ __('Войти') }}
             </x-primary-button>

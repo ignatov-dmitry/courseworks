@@ -17,7 +17,7 @@ return new class extends Migration
                 User::ROLE_ADMIN,
                 User::ROLE_CUSTOMER,
                 User::ROLE_EXECUTOR
-            ]);
+            ])->after('email')->default(User::ROLE_CUSTOMER);
         });
     }
 
