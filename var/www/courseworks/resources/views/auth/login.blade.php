@@ -6,7 +6,7 @@
         <!-- Email Address -->
         <div class="input-with-icon-left">
             <i class="icon-material-baseline-mail-outline"></i>
-            <x-text-input id="email" class="input-text with-border" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <x-text-input id="email" placeholder="Email" class="input-text with-border" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
@@ -16,6 +16,7 @@
             <x-text-input id="password" class="input-text with-border"
                             type="password"
                             name="password"
+                            placeholder="Пароль"
                             required autocomplete="current-password" />
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />

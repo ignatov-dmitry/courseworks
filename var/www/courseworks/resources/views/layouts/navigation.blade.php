@@ -1,100 +1,104 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
-    <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
+<header id="header-container" class="fullwidth transparent">
+
+    <!-- Header -->
+    <div id="header">
+        <div class="container">
+
+            <!-- Left Side Content -->
+            <div class="left-side">
+
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
+                <div id="logo" style="display: none">
+                    <a href="/"><img src="images/logo.png" alt=""></a>
                 </div>
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
+                <!-- Main Navigation -->
+                <nav id="navigation">
+                    <ul id="responsive">
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="#">Find Work</a></li>
+                        <li><a href="#">For Employers</a></li>
+                        <li><a href="#">Dashboard</a></li>
+
+                    </ul>
+                </nav>
+                <div class="clearfix"></div>
+                <!-- Main Navigation / End -->
+
             </div>
+            <!-- Left Side Content / End -->
 
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+            <!-- Right Side Content / End -->
+            <div class="right-side">
 
-                            <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
+                <div class="header-widget">
+                    @auth
+                        <div class="header-notifications user-menu">
+                            <div class="header-notifications-trigger">
+                                <a href="#"><div class="user-avatar status-online"><img src="images/user-avatar-small-01.jpg" alt=""></div></a>
                             </div>
-                        </button>
-                    </x-slot>
 
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
+                            <!-- Dropdown -->
+                            <div class="header-notifications-dropdown">
 
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
+                                <!-- User Status -->
+                                <div class="user-status">
 
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                                    <!-- User Name / Avatar -->
+                                    <div class="user-details">
+                                        <div class="user-avatar status-online"><img src="images/user-avatar-small-01.jpg" alt=""></div>
+                                        <div class="user-name">
+                                            {{ Auth::user()->name }} <span>Заказчик</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- User Status Switcher -->
+                                    <div class="status-switch" id="snackbar-user-status">
+                                        <label class="user-online current-status">В сети</label>
+                                        <label class="user-invisible">Невидим</label>
+                                        <!-- Status Indicator -->
+                                        <span class="status-indicator" aria-hidden="true"></span>
+                                    </div>
+                                </div>
+
+                                <ul class="user-menu-small-nav">
+                                    <li><a href="{{ route('dashboard') }}"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
+                                    <li>
+                                        <x-dropdown-link :href="route('profile.edit')">
+                                            <i class="icon-material-outline-settings"></i>
+                                            {{ __('Настройки аккаунта') }}
+                                        </x-dropdown-link>
+                                    </li>
+                                    <li>
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <x-dropdown-link :href="route('logout')"
+                                                             onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </form>
-                    </x-slot>
-                </x-dropdown>
-            </div>
+                                                <i class="icon-material-outline-power-settings-new"></i>
+                                                {{ __('Выйти') }}
+                                            </x-dropdown-link>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    @else
+                        <a href="{{ route('login') }}" class="log-in-button"><i class="icon-feather-log-in"></i> <span>Войти</span></a>
+                    @endauth
+                </div>
 
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
+                <!-- Mobile Navigation Button -->
+                <span class="mmenu-trigger">
+					<button class="hamburger hamburger--collapse" type="button">
+						<span class="hamburger-box">
+							<span class="hamburger-inner"></span>
+						</span>
+					</button>
+				</span>
             </div>
+            <!-- Right Side Content / End -->
         </div>
     </div>
-
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-        </div>
-
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
-            </div>
-        </div>
-    </div>
-</nav>
+    <!-- Header / End -->
+</header>
