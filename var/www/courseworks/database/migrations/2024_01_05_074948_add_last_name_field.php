@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_settings', function (Blueprint $table) {
-            $table->id();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('last_name')->after('name')->nullable();
         });
     }
 
@@ -21,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_settings');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 };

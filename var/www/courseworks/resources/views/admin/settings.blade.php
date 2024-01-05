@@ -36,14 +36,14 @@
 
                                         <div class="col-xl-6">
                                             <div class="submit-field">
-                                                <h5>First Name</h5>
+                                                <h5>Имя</h5>
                                                 <input type="text" class="with-border" value="Tom">
                                             </div>
                                         </div>
 
                                         <div class="col-xl-6">
                                             <div class="submit-field">
-                                                <h5>Last Name</h5>
+                                                <h5>Фамилия</h5>
                                                 <input type="text" class="with-border" value="Smith">
                                             </div>
                                         </div>
@@ -69,7 +69,7 @@
                                         <div class="col-xl-6">
                                             <div class="submit-field">
                                                 <h5>Email</h5>
-                                                <input type="text" class="with-border" value="tom@example.com">
+                                                <input disabled type="text" class="with-border" value="tom@example.com">
                                             </div>
                                         </div>
 
