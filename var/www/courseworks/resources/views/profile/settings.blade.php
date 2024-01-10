@@ -15,7 +15,9 @@
             <!-- Row -->
             <div class="row">
                     <!-- Dashboard Box -->
-                <form action="">
+                <form method="post" action="{{ route('profile.update') }}">
+                    @csrf
+                    @method('patch')
                     <div class="col-xl-12">
                         <div class="dashboard-box margin-top-0">
 
@@ -42,7 +44,7 @@
                                             <div class="col-xl-6">
                                                 <div class="submit-field">
                                                     <h5>Имя</h5>
-                                                    <input type="text" class="with-border"
+                                                    <input name="first_name" type="text" class="with-border"
                                                            value="{{ Auth::user()->first_name }}">
                                                 </div>
                                             </div>
@@ -50,7 +52,7 @@
                                             <div class="col-xl-6">
                                                 <div class="submit-field">
                                                     <h5>Фамилия</h5>
-                                                    <input type="text" class="with-border"
+                                                    <input name="last_name" type="text" class="with-border"
                                                            value="{{ Auth::user()->last_name }}">
                                                 </div>
                                             </div>
@@ -358,35 +360,40 @@
 
 
                     <!-- Dashboard Box -->
-                <form action="">
+                <form method="post" action="{{ route('password.update') }}">
+                    @csrf
+                    @method('put')
                     <div class="col-xl-12">
                         <div id="test1" class="dashboard-box">
 
                             <!-- Headline -->
                             <div class="headline">
-                                <h3><i class="icon-material-outline-lock"></i> Password & Security</h3>
+                                <h3><i class="icon-material-outline-lock"></i> Безопасность</h3>
                             </div>
 
                             <div class="content with-padding">
                                 <div class="row">
                                     <div class="col-xl-4">
                                         <div class="submit-field">
-                                            <h5>Current Password</h5>
-                                            <input type="password" class="with-border">
+                                            <h5>Текущий пароль</h5>
+                                            <x-text-input id="update_password_current_password" name="current_password" type="password" class="with-border" autocomplete="current-password" />
+                                            <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
                                         </div>
                                     </div>
 
                                     <div class="col-xl-4">
                                         <div class="submit-field">
-                                            <h5>New Password</h5>
-                                            <input type="password" class="with-border">
+                                            <h5>Новый пароль</h5>
+                                            <x-text-input id="update_password_password" name="password" type="password" class="with-border" autocomplete="new-password" />
+                                            <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
                                         </div>
                                     </div>
 
                                     <div class="col-xl-4">
                                         <div class="submit-field">
-                                            <h5>Repeat New Password</h5>
-                                            <input type="password" class="with-border">
+                                            <h5>Подтверждение нового пароля</h5>
+                                            <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password" class="with-border" autocomplete="new-password" />
+                                            <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
                                         </div>
                                     </div>
                                     <div class="col-xl-12">

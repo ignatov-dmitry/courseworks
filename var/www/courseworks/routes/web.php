@@ -24,15 +24,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
         Route::post('/save-account-type', [AdminController::class, 'saveAccountType'])->name('saveAccountType');
     });
-
-    Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
 });
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/settings', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/settings', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/settings', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
