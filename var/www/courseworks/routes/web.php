@@ -19,8 +19,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+Route::middleware(['auth'])->group(function () {
+    Route::middleware(['verified'])->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::post('/save-account-type', [AdminController::class, 'saveAccountType'])->name('saveAccountType');
+    });
+
     Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
 });
 
