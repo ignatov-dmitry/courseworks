@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\UserSetting;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,7 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function accountUpdate(ProfileUpdateRequest $request): RedirectResponse
     {
         $request->user()->fill($request->validated());
 
@@ -54,5 +55,17 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function profileUpdate(Request $request): RedirectResponse
+    {
+        Auth::user()->categories()->sync($request->get('category_id'));
+
+        UserSetting::updateOrCreate(['user_id' => Auth::user()->id], $request->all());
+
+        Auth::user()->country_id = $request->get('country_id');
+        Auth::user()->save();
+
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 }

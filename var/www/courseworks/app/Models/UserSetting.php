@@ -28,6 +28,7 @@ class UserSetting extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'user_id',
         'name',
         'description',
         'title',

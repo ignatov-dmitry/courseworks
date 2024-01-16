@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -45,6 +47,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property int|null $country_id
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCountryId($value)
  * @property-read \App\Models\UserSetting|null $settings
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserCategory> $categories
+ * @property-read int|null $categories_count
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements MustVerifyEmail
@@ -89,8 +93,18 @@ class User extends Authenticatable implements MustVerifyEmail
         'password'          => 'hashed',
     ];
 
-    public function settings(): BelongsTo
+    public function settings(): HasOne
     {
-        return $this->belongsTo(UserSetting::class);
+        return $this->hasOne(UserSetting::class);
+    }
+
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Category::class,
+            'user_categories',
+            'user_id',
+            'category_id'
+        );
     }
 }

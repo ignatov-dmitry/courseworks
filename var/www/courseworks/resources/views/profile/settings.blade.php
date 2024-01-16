@@ -1,4 +1,8 @@
-@php use App\Models\Country;use App\Models\User; @endphp
+@php
+    use App\Models\Category;
+    use App\Models\Country;
+    use App\Models\User;
+@endphp
 <x-admin-layout>
     <form id="send-verification" method="post" action="{{ route('verification.send') }}">
         @csrf
@@ -15,128 +19,129 @@
             <!-- Row -->
             <div class="row">
                 <!-- Dashboard Box -->
-                <form method="post" action="{{ route('profile.update') }}">
-                    @csrf
-                    @method('patch')
-                    <div class="col-xl-12">
-                        <div class="dashboard-box margin-top-0">
+                <div class="col-xl-12">
+                    <form method="post" action="{{ route('profile.accountUpdate') }}">
+                        @csrf
+                        @method('patch')
 
-                            <!-- Headline -->
-                            <div class="headline">
-                                <h3><i class="icon-material-outline-account-circle"></i> {{ __('Мой аккаунт') }}</h3>
-                            </div>
+                            <div class="dashboard-box margin-top-0">
 
-                            <div class="content with-padding padding-bottom-0">
+                                <!-- Headline -->
+                                <div class="headline">
+                                    <h3><i class="icon-material-outline-account-circle"></i> {{ __('Мой аккаунт') }}</h3>
+                                </div>
 
-                                <div class="row">
+                                <div class="content with-padding padding-bottom-0">
 
-                                    <div class="col-auto">
-                                        <div class="avatar-wrapper" data-tippy-placement="bottom" title="Change Avatar">
-                                            <img class="profile-pic" src="images/user-avatar-placeholder.png" alt=""/>
-                                            <div class="upload-button"></div>
-                                            <input class="file-upload" type="file" accept="image/*"/>
+                                    <div class="row">
+
+                                        <div class="col-auto">
+                                            <div class="avatar-wrapper" data-tippy-placement="bottom" title="Change Avatar">
+                                                <img class="profile-pic" src="images/user-avatar-placeholder.png" alt=""/>
+                                                <div class="upload-button"></div>
+                                                <input class="file-upload" type="file" accept="image/*"/>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col">
-                                        <div class="row">
+                                        <div class="col">
+                                            <div class="row">
 
-                                            <div class="col-xl-6">
-                                                <div class="submit-field">
-                                                    <h5>Имя</h5>
-                                                    <input name="first_name" type="text" class="with-border"
-                                                           value="{{ Auth::user()->first_name }}">
+                                                <div class="col-xl-6">
+                                                    <div class="submit-field">
+                                                        <h5>Имя</h5>
+                                                        <input name="first_name" type="text" class="with-border"
+                                                               value="{{ Auth::user()->first_name }}">
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-xl-6">
-                                                <div class="submit-field">
-                                                    <h5>Фамилия</h5>
-                                                    <input name="last_name" type="text" class="with-border"
-                                                           value="{{ Auth::user()->last_name }}">
+                                                <div class="col-xl-6">
+                                                    <div class="submit-field">
+                                                        <h5>Фамилия</h5>
+                                                        <input name="last_name" type="text" class="with-border"
+                                                               value="{{ Auth::user()->last_name }}">
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-xl-6">
-                                                <!-- Account Type -->
-                                                <div class="submit-field">
-                                                    <div class="account-type">
-                                                        <div>
-                                                            <input type="radio"
-                                                                   name="account-type-radio"
-                                                                   id="{{ User::ROLE_EXECUTOR }}-radio"
-                                                                   class="account-type-radio"
-                                                                   value="{{ User::ROLE_EXECUTOR }}"
-                                                                   @if(Auth::user()->role === User::ROLE_EXECUTOR) checked @endif
-                                                            />
-                                                            <label for="{{ User::ROLE_EXECUTOR }}-radio"
-                                                                   class="ripple-effect-dark"><i
+                                                <div class="col-xl-6">
+                                                    <!-- Account Type -->
+                                                    <div class="submit-field">
+                                                        <div class="account-type">
+                                                            <div>
+                                                                <input type="radio"
+                                                                       name="account-type-radio"
+                                                                       id="{{ User::ROLE_EXECUTOR }}-radio"
+                                                                       class="account-type-radio"
+                                                                       value="{{ User::ROLE_EXECUTOR }}"
+                                                                       @if(Auth::user()->role === User::ROLE_EXECUTOR) checked @endif
+                                                                />
+                                                                <label for="{{ User::ROLE_EXECUTOR }}-radio"
+                                                                       class="ripple-effect-dark"><i
                                                                         class="icon-material-outline-account-circle"></i>
-                                                                Исполнитель</label>
-                                                        </div>
+                                                                    Исполнитель</label>
+                                                            </div>
 
-                                                        <div>
-                                                            <input type="radio"
-                                                                   name="account-type-radio"
-                                                                   id="{{ User::ROLE_CUSTOMER }}-radio"
-                                                                   class="account-type-radio"
-                                                                   value="{{ User::ROLE_CUSTOMER }}"
-                                                                   @if(Auth::user()->role === User::ROLE_CUSTOMER) checked @endif
-                                                            />
-                                                            <label for="{{ User::ROLE_CUSTOMER }}-radio"
-                                                                   class="ripple-effect-dark"><i
+                                                            <div>
+                                                                <input type="radio"
+                                                                       name="account-type-radio"
+                                                                       id="{{ User::ROLE_CUSTOMER }}-radio"
+                                                                       class="account-type-radio"
+                                                                       value="{{ User::ROLE_CUSTOMER }}"
+                                                                       @if(Auth::user()->role === User::ROLE_CUSTOMER) checked @endif
+                                                                />
+                                                                <label for="{{ User::ROLE_CUSTOMER }}-radio"
+                                                                       class="ripple-effect-dark"><i
                                                                         class="icon-material-outline-business-center"></i>
-                                                                Заказчик</label>
+                                                                    Заказчик</label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-xl-6">
-                                                <div class="submit-field">
-                                                    <h5>Email</h5>
-                                                    <x-text-input id="email" name="email" type="email"
-                                                                  class="with-border"
-                                                                  :value="old('email', Auth::user()->email)" required
-                                                                  autocomplete="username"/>
-                                                    <x-input-error class="mt-2" :messages="$errors->get('email')"/>
+                                                <div class="col-xl-6">
+                                                    <div class="submit-field">
+                                                        <h5>Email</h5>
+                                                        <x-text-input id="email" name="email" type="email"
+                                                                      class="with-border"
+                                                                      :value="old('email', Auth::user()->email)" required
+                                                                      autocomplete="username"/>
+                                                        <x-input-error class="mt-2" :messages="$errors->get('email')"/>
 
-                                                    @if (Auth::user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! Auth::user()->hasVerifiedEmail())
-                                                        <div>
-                                                            <p class="text-sm mt-2 text-gray-800">
-                                                                {{ __('Your email address is unverified.') }}
+                                                        @if (Auth::user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! Auth::user()->hasVerifiedEmail())
+                                                            <div>
+                                                                <p class="text-sm mt-2 text-gray-800">
+                                                                    {{ __('Your email address is unverified.') }}
 
-                                                                <button form="send-verification"
-                                                                        class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                                                    {{ __('Click here to re-send the verification email.') }}
-                                                                </button>
-                                                            </p>
-
-                                                            @if (session('status') === 'verification-link-sent')
-                                                                <p class="mt-2 font-medium text-sm text-green-600">
-                                                                    {{ __('A new verification link has been sent to your email address.') }}
+                                                                    <button form="send-verification"
+                                                                            class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                                        {{ __('Click here to re-send the verification email.') }}
+                                                                    </button>
                                                                 </p>
-                                                            @endif
-                                                        </div>
-                                                    @endif
+
+                                                                @if (session('status') === 'verification-link-sent')
+                                                                    <p class="mt-2 font-medium text-sm text-green-600">
+                                                                        {{ __('A new verification link has been sent to your email address.') }}
+                                                                    </p>
+                                                                @endif
+                                                            </div>
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-xl-12">
-                                        <button type="submit" class="button ripple-effect big margin-bottom-30">
-                                            Сохранить изменения
-                                        </button>
+                                        <div class="col-xl-12">
+                                            <button type="submit" class="button ripple-effect big margin-bottom-30">
+                                                Сохранить изменения
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </form>
-
-
-                <form action="">
-                    <div class="col-xl-12">
+                    </form>
+                </div>
+                <div class="col-xl-12">
+                    <form method="post" action="{{ route('profile.profileUpdate') }}">
+                        @csrf
+                        @method('patch')
                         <div class="dashboard-box">
 
                             <!-- Headline -->
@@ -151,17 +156,22 @@
                                             <div class="col-xl-4">
                                                 <div class="submit-field">
                                                     <h5>Специализация</h5>
+
                                                     <input name="title" type="text" class="with-border"
-                                                           value="{{ Auth::user()->settings->description ?? 'прим. Уголовное право, семейное право '}}">
+                                                           placeholder="прим. Уголовное право, семейное право"
+                                                           value="{{ old('title', Auth::user()->settings->title) }}">
                                                 </div>
                                             </div>
                                             <div class="col-xl-4">
                                                 <div class="submit-field">
                                                     <h5>Специальности</h5>
-                                                    <select multiple name="country_id" class="selectpicker with-border" data-size="7"
-                                                            title="Выберите свой перечень специальностей" data-live-search="true">
-                                                        @foreach(Country::all() as $country)
-                                                            <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                                    <select multiple name="category_id[]" class="selectpicker with-border"
+                                                            data-size="7"
+                                                            title="Выберите свой перечень специальностей"
+                                                            data-live-search="true">
+                                                        @foreach(Category::all() as $category)
+                                                            <option
+                                                                value="{{ $category->id }}" @if(in_array($category->id, Auth::user()->categories->pluck('id')->toArray())) selected @endif>{{ $category->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -169,10 +179,12 @@
                                             <div class="col-xl-4">
                                                 <div class="submit-field">
                                                     <h5>Страна</h5>
-                                                    <select name="country_id" class="selectpicker with-border" data-size="7"
+                                                    <select name="country_id" class="selectpicker with-border"
+                                                            data-size="7"
                                                             title="Выберите страну" data-live-search="true">
                                                         @foreach(Country::all() as $country)
-                                                            <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                                            <option @if($country->id === Auth::user()->country_id) selected @endif
+                                                                value="{{ $country->id }}">{{ $country->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -181,7 +193,8 @@
                                             <div class="col-xl-12">
                                                 <div class="submit-field">
                                                     <h5>Информация о себе</h5>
-                                                    <textarea name="description" cols="30" rows="5" class="with-border">{{ Auth::user()->settings->description ?? ''}}</textarea>
+                                                    <textarea name="description" cols="30" rows="5"
+                                                              class="with-border">{{ Auth::user()->settings->description ?? ''}}</textarea>
                                                 </div>
                                             </div>
 
@@ -196,16 +209,17 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
                 <!-- Dashboard Box -->
 
 
                 <!-- Dashboard Box -->
-                <form method="post" action="{{ route('password.update') }}">
-                    @csrf
-                    @method('put')
-                    <div class="col-xl-12">
+                <div class="col-xl-12">
+                    <form method="post" action="{{ route('password.update') }}">
+                        @csrf
+                        @method('put')
+
                         <div id="test1" class="dashboard-box">
 
                             <!-- Headline -->
@@ -243,8 +257,8 @@
                                                           name="password_confirmation" type="password"
                                                           class="with-border" autocomplete="new-password"/>
                                             <x-input-error
-                                                    :messages="$errors->updatePassword->get('password_confirmation')"
-                                                    class="mt-2"/>
+                                                :messages="$errors->updatePassword->get('password_confirmation')"
+                                                class="mt-2"/>
                                         </div>
                                     </div>
                                     <div class="col-xl-12">
@@ -256,8 +270,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
             <!-- Row / End -->
 
@@ -266,7 +280,7 @@
             <div class="dashboard-footer-spacer"></div>
             <div class="small-footer margin-top-15">
                 <div class="small-footer-copyrights">
-                    © 2018 <strong>Hireo</strong>. All Rights Reserved.
+                    © {{ date('Y') }} <strong>Hireo</strong>. All Rights Reserved.
                 </div>
                 <ul class="footer-social-links">
                     <li>
