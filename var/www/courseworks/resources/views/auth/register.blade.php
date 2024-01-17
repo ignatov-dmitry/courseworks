@@ -21,7 +21,7 @@
         <!-- Name -->
         <div class="input-with-icon-left">
             <i class="icon-material-baseline-mail-outline"></i>
-            <x-text-input id="name" class="input-text with-border"  type="text" name="name" :value="old('name')" placeholder="Имя" required autofocus autocomplete="name" />
+            <x-text-input id="name" class="input-text with-border"  type="text" name="name" :value="old('name')" placeholder="Nickname" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 

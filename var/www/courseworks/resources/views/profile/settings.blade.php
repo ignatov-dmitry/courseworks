@@ -51,6 +51,8 @@
                                                         <h5>Имя</h5>
                                                         <input name="first_name" type="text" class="with-border"
                                                                value="{{ Auth::user()->first_name }}">
+                                                        <x-input-error :messages="$errors->get('first_name')"
+                                                                       class="mt-2"/>
                                                     </div>
                                                 </div>
 
@@ -59,6 +61,8 @@
                                                         <h5>Фамилия</h5>
                                                         <input name="last_name" type="text" class="with-border"
                                                                value="{{ Auth::user()->last_name }}">
+                                                        <x-input-error :messages="$errors->get('last_name')"
+                                                                       class="mt-2"/>
                                                     </div>
                                                 </div>
 
@@ -159,7 +163,7 @@
 
                                                     <input name="title" type="text" class="with-border"
                                                            placeholder="прим. Уголовное право, семейное право"
-                                                           value="{{ old('title', Auth::user()->settings->title) }}">
+                                                           value="{{ old('title', Auth::user()->settings->title ?? '') }}">
                                                 </div>
                                             </div>
                                             <div class="col-xl-4">
