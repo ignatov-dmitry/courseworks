@@ -39,6 +39,7 @@ Route::group([
     'as' => 'chat.',
     'prefix' => 'chat'
 ], function () {
+    Route::get('thread/{thread_id}', [ChatController::class, 'getThread'])->name('messages');
     Route::get('messages', [ChatController::class, 'messages'])->name('messages');
 });
 
