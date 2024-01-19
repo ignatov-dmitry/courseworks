@@ -37,9 +37,12 @@ Route::middleware('auth')->group(function () {
 
 Route::group([
     'as' => 'chat.',
-    'prefix' => 'chat'
+    'prefix' => 'chat',
+    'middleware' => ['auth']
 ], function () {
-    Route::get('thread/{thread_id}', [ChatController::class, 'getThread'])->name('messages');
+    Route::get('thread/create', [ChatController::class, 'createThread'])->name('createThread');
+    Route::get('thread/{threadId}', [ChatController::class, 'getThread'])->name('getThread');
+    Route::post('thread/message/send', [ChatController::class, 'sendMessage'])->name('sendMessage');
     Route::get('messages', [ChatController::class, 'messages'])->name('messages');
 });
 

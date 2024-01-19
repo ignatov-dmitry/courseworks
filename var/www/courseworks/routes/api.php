@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,4 @@ Route::get('messages', function (Request $request) {
     return ['token' => $token->plainTextToken];
 });
 
+Route::get('thread/{threadId}', [ChatController::class, 'getThread'])->name('getThread');

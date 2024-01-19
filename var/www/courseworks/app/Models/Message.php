@@ -28,4 +28,13 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'thread_id',
+        'sender_id',
+        'content',
+        'created_at'
+    ];
 }
