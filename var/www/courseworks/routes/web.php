@@ -42,7 +42,7 @@ Route::group([
     'middleware' => ['auth']
 ], function () {
     Route::get('get-token', function (Request $request){
-        $token = $request->user()->createToken('test');
+        $token = $request->user()->createToken('test', ['chat:messaging']);
         return ['token' => $token->plainTextToken];
     });
     Route::get('thread/create', [ChatController::class, 'createThread'])->name('createThread');
