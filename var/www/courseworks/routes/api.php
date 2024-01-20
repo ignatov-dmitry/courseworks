@@ -21,8 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::get('messages', function (Request $request) {
-    $token = $request->user()->createToken('MyApp');
-    return ['token' => $token->plainTextToken];
+
 });
 
-Route::get('thread/{threadId}', [ChatController::class, 'getThread'])->name('getThread');
+Route::middleware('auth:sanctum')->get('thread/{threadId}', [ChatController::class, 'getThread'])->name('getThread');

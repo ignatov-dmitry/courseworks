@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,10 @@ Route::group([
     'prefix' => 'chat',
     'middleware' => ['auth']
 ], function () {
+    Route::get('get-token', function (Request $request){
+        $token = $request->user()->createToken('test');
+        return ['token' => $token->plainTextToken];
+    });
     Route::get('thread/create', [ChatController::class, 'createThread'])->name('createThread');
     Route::get('thread/{threadId}', [ChatController::class, 'getThread'])->name('getThread');
     Route::post('thread/message/send', [ChatController::class, 'sendMessage'])->name('sendMessage');
