@@ -8,6 +8,23 @@ $(document).ready(function(){
             'X-CSRF-TOKEN': $('meta[name = "csrf-token"]').attr('content')
         }
     });
+
+    function getChatToken() {
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                url: '/chat/get-token',
+                method: 'post',
+                success: function (data) {
+                    resolve(data);
+                },
+                error: function (error) {
+                    reject(error);
+                }
+            });
+        });
+    }
+
+    window.getChatToken = getChatToken;
 	/*--------------------------------------------------*/
 	/*  Mobile Menu - mmenu.js
 	/*--------------------------------------------------*/

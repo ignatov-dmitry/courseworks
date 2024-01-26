@@ -30,62 +30,21 @@
                         </div>
 
                         <ul>
-                            <li>
-                                <a href="#">
-                                    <div class="message-avatar"><i class="status-icon status-online"></i><img src="images/user-avatar-small-03.jpg" alt="" /></div>
+                            @foreach($threads as $thread)
+                                <li @if(!$thread->read_at && $thread->content) style="background: antiquewhite;" @endif class="active-message">
+                                    <a href="#">
+{{--                                        <div class="message-avatar"><i class="status-icon status-offline"></i><img src="images/user-avatar-small-02.jpg" alt="" /></div>--}}
 
-                                    <div class="message-by">
-                                        <div class="message-by-headline">
-                                            <h5>David Peterson</h5>
-                                            <span>4 hours ago</span>
+                                        <div class="message-by">
+                                            <div class="message-by-headline">
+                                                <h5>{{ $thread->user_name }}</h5>
+                                                <span>{{ $thread->created_at }}</span>
+                                            </div>
+                                            <p>{{ $thread->content }}</p>
                                         </div>
-                                        <p>Thanks for reaching out. I'm quite busy right now on many</p>
-                                    </div>
-                                </a>
-                            </li>
-
-                            <li class="active-message">
-                                <a href="#">
-                                    <div class="message-avatar"><i class="status-icon status-offline"></i><img src="images/user-avatar-small-02.jpg" alt="" /></div>
-
-                                    <div class="message-by">
-                                        <div class="message-by-headline">
-                                            <h5>Sindy Forest</h5>
-                                            <span>Yesterday</span>
-                                        </div>
-                                        <p>Hi Tom! Hate to break it to you but I'm actually on vacation</p>
-                                    </div>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#">
-                                    <div class="message-avatar"><i class="status-icon status-offline"></i><img src="images/user-avatar-placeholder.png" alt="" /></div>
-
-                                    <div class="message-by">
-                                        <div class="message-by-headline">
-                                            <h5>Sebastiano Piccio</h5>
-                                            <span>2 days ago</span>
-                                        </div>
-                                        <p>Hello, I want to talk about my project if you don't mind!</p>
-                                    </div>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#">
-                                    <div class="message-avatar"><i class="status-icon status-online"></i><img src="images/user-avatar-placeholder.png" alt="" /></div>
-
-                                    <div class="message-by">
-                                        <div class="message-by-headline">
-                                            <h5>Marcin Kowalski</h5>
-                                            <span>2 days ago</span>
-                                        </div>
-                                        <p>Yes, I received payment. Thanks for cooperation!</p>
-                                    </div>
-                                </a>
-                            </li>
-
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                     <!-- Messages / End -->
@@ -226,4 +185,18 @@
 
         </div>
     </div>
+    @section('scripts')
+        <script>
+            let chatApiToken = '';
+            $(document).ready(function(){
+                window.getChatToken()
+                    .then(function(token) {
+                        chatApiToken = token;
+                    })
+                    .catch(function(error) {
+                        console.error('Произошла ошибка при получении токена:', error);
+                    });
+            });
+        </script>
+    @endsection
 </x-admin-layout>

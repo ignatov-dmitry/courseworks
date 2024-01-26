@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use App\Models\Thread;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\JoinClause;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ChatController extends Controller
 {
@@ -61,9 +66,42 @@ class ChatController extends Controller
 
         return response()->json([$message]);
     }
-    public function messages()
+    public function messages(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        return view('chat.messages');
+        $threads = DB::table('threads')
+            ->select(
+                'threads.uuid as thread_uuid',
+                'threads.sender_id',
+                'threads.receiver_id',
+                'last_message.content',
+                'last_message.read_at',
+                'last_message.created_at',
+                'u.name as user_name'
+            )
+            ->leftJoin(DB::raw('LATERAL (SELECT
+            m.content,
+            m.read_at,
+            m.created_at
+        FROM
+            messages m
+        WHERE
+            m.thread_id = threads.uuid
+        ORDER BY
+            m.id DESC
+        LIMIT 1) AS last_message ON TRUE'), function (){})
+            ->leftJoin('users as u', function (JoinClause $join) {
+                $join
+                    ->on(function (JoinClause $clause) {
+                        $clause->whereRaw('u.id in (threads.sender_id, threads.receiver_id)');
+                    })
+                    ->where('u.id', '!=', 10);
+            })
+            ->where('threads.sender_id', 10)
+            ->orWhere('threads.receiver_id', 10)
+            ->orderByRaw('last_message.created_at desc NULLS LAST')
+            ->get();
+
+        return view('chat.messages', compact('threads'));
     }
 
     public function store(Request $request): JsonResponse

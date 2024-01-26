@@ -41,7 +41,7 @@ Route::group([
     'prefix' => 'chat',
     'middleware' => ['auth']
 ], function () {
-    Route::get('get-token', function (Request $request){
+    Route::post('get-token', function (Request $request){
         $token = $request->user()->createToken('test', ['chat:messaging']);
         return ['token' => $token->plainTextToken];
     });
