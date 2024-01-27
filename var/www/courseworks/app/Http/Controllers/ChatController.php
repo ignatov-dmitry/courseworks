@@ -49,22 +49,28 @@ class ChatController extends Controller
         return redirect()->route('chat.getThread', ['threadId' => $threadUuid]);
     }
 
-    public function getThread(string $threadId): JsonResponse
+    public function getThread(Request $request): array|Collection|\Illuminate\Support\Collection
     {
-        $thread = Thread::whereUuid($threadId)->first();
-        return response()->json([$thread]);
+        $threadId = $request->get('threadId');
+        $offset = $request->get('offset') ?? 0;
+        $messages = Message::query()
+            ->where('thread_id', '=', $threadId)
+            ->limit(20)
+            ->offset($offset)
+            ->orderBy('created_at', 'desc')
+            ->get()->toArray();
+
+        return array_reverse($messages);
     }
 
-    public function sendMessage(Request $request): JsonResponse
+    public function sendMessage(Request $request): Message|Model
     {
-        $message = Message::create([
-            'thread_id'     => $request->get('thread_id'),
+        return Message::create([
+            'thread_id'     => $request->get('threadId'),
             'sender_id'     => Auth::user()->id,
             'content'       => $request->get('content'),
             'created_at'    => Carbon::now()
         ]);
-
-        return response()->json([$message]);
     }
     public function messages(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {

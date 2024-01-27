@@ -24,4 +24,5 @@ Route::get('messages', function (Request $request) {
 
 });
 
-Route::middleware('auth:sanctum')->get('thread/{threadId}', [ChatController::class, 'getThread'])->name('getThread');
+Route::middleware('auth:sanctum')->get('threads', [ChatController::class, 'getThread']);
+Route::middleware('auth:sanctum')->post('send-message', [ChatController::class, 'sendMessage']);

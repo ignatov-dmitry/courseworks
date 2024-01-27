@@ -25,6 +25,108 @@ $(document).ready(function(){
     }
 
     window.getChatToken = getChatToken;
+
+    function addMessage(item)
+    {
+        let messagesBlock = document.getElementById('messages');
+        const messageBubble = document.createElement('div');
+        messageBubble.classList.add('message-bubble');
+        messageBubble.id = 'message_' + item.id;
+
+        if (userId === item.sender_id)
+            messageBubble.classList.add('me');
+
+        const messageInner = document.createElement('div');
+        messageInner.classList.add('message-bubble-inner');
+
+        // const messageAvatar = document.createElement('div');
+        // messageAvatar.classList.add('message-avatar');
+        // const avatarImage = document.createElement('img');
+        // avatarImage.src = 'images/user-avatar-small-02.jpg';
+        // avatarImage.alt = '';
+        // messageAvatar.appendChild(avatarImage);
+
+        const messageText = document.createElement('div');
+        messageText.classList.add('message-text');
+        const textParagraph = document.createElement('p');
+        textParagraph.textContent = item.content;
+        messageText.appendChild(textParagraph);
+
+        //messageInner.appendChild(messageAvatar);
+        messageInner.appendChild(messageText);
+
+        messageBubble.appendChild(messageInner);
+
+
+        const clearfixDiv = document.createElement('div');
+        clearfixDiv.classList.add('clearfix');
+        messageBubble.appendChild(clearfixDiv);
+
+        messagesBlock.appendChild(messageBubble);
+    }
+
+    $('.messages-inbox li').on('click', function (){
+        $('.messages-inbox li').removeClass('active-message')
+        $(this).addClass('active-message');
+    });
+
+    $('.messages-inbox a').on('click', function (e){
+        window.threadId = $(this).data('chat-id');
+        e.preventDefault();
+        $.ajax({
+            url: '/api/threads',
+            data: {
+                threadId: window.threadId
+            },
+            success: function (data) {
+                let messages = '';
+                let messagesBlock = $('#messages');
+                data.forEach(function (item) {
+                    addMessage(item);
+                });
+
+                messagesBlock.animate({'scrollTop': messagesBlock.prop("scrollHeight")}, 300);
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        });
+    });
+
+    function sendMessage(){
+        let message = $('#message').val();
+        $.ajax({
+            method: 'post',
+            url: '/api/send-message',
+            data: {
+                threadId: window.threadId,
+                content: message
+            },
+            success: function (data) {
+                let messagesBlock = $('#messages');
+                $('#message').val('');
+                addMessage(data);
+                messagesBlock.animate({'scrollTop': messagesBlock.prop("scrollHeight")}, 300);
+            },
+            error: function (data) {
+                //console.log(data)
+            }
+        });
+    }
+
+    $('#send-message').click(function (){
+        sendMessage();
+    });
+
+    $('#message').keypress(function (e) {
+
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code === 13){
+            e.preventDefault();
+            sendMessage();
+        }
+    })
+
 	/*--------------------------------------------------*/
 	/*  Mobile Menu - mmenu.js
 	/*--------------------------------------------------*/
