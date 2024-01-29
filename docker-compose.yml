@@ -23,6 +23,8 @@ services:
         build:
             context: .
             dockerfile: _docker/app/Dockerfile
+        ports:
+            - 6001:6001
         volumes:
             - ./var/www:/var/www
         depends_on:

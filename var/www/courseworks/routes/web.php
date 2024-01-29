@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\NewMessage;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ProfileController;
@@ -51,4 +52,8 @@ Route::group([
     Route::get('messages', [ChatController::class, 'messages'])->name('messages');
 });
 
+Route::get('test-socket', function (){
+    $newMessage = new NewMessage('Hello, world!');
+    broadcast($newMessage)->toOthers();
+});
 require __DIR__.'/auth.php';
