@@ -21,6 +21,6 @@ Broadcast::channel('public-chat', function ($user) {
     return ['id' => $user->id, 'name' => $user->name];
 });
 
-Broadcast::channel('chat.{roomId}', function (User $user, $roomId) {
-    return $user->hasAccessToChatRoom($roomId);
+Broadcast::channel('chat.{receiverId}', function (User $user, $receiverId) {
+    return true;
 });

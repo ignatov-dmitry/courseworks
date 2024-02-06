@@ -10,7 +10,11 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
+    @if(Auth::user()->id)
+        <script>
+            window.userId = {{ Auth::user()->id }}
+        </script>
+    @endif
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/css/colors/blue.css', 'resources/js/app.js'])
 </head>
@@ -70,6 +74,7 @@
 
 <!-- Google Autocomplete -->
 <script>
+
     function initAutocomplete() {
         var options = {
             types: ['(cities)'],

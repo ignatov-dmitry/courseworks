@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewChatMessage;
 use App\Models\Message;
 use App\Models\Thread;
 use Illuminate\Contracts\View\Factory;
@@ -65,6 +66,9 @@ class ChatController extends Controller
 
     public function sendMessage(Request $request): Message|Model
     {
+        $thread = Thread::where('uuid', '=', $request->get('threadId'))->first();
+        $receiverId = $thread->receiver_id === Auth::user()->id ? $thread->sender_id : $thread->receiver_id;
+        broadcast(new NewChatMessage($request->get('threadId'), $receiverId, $request->get('content')))->toOthers();
         return Message::create([
             'thread_id'     => $request->get('threadId'),
             'sender_id'     => Auth::user()->id,

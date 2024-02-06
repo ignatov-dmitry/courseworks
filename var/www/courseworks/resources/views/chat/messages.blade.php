@@ -143,16 +143,7 @@
     @section('scripts')
         <script>
             let userId = {{ Auth::user()->id }};
-            let chatApiToken = '';
-            $(document).ready(function(){
-                window.getChatToken()
-                    .then(function(token) {
-                        chatApiToken = token;
-                    })
-                    .catch(function(error) {
-                        console.error('Произошла ошибка при получении токена:', error);
-                    });
-            });
+            window.threadId = '';
         </script>
     @endsection
 </x-admin-layout>

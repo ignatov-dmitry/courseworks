@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\NewChatMessage;
 use App\Events\NewMessage;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChatController;
@@ -53,7 +54,6 @@ Route::group([
 });
 
 Route::get('test-socket', function (){
-    $newMessage = new NewMessage('Hello, world!');
-    broadcast($newMessage)->toOthers();
+    broadcast(new NewChatMessage('77b3f9d9-af54-4deb-a745-1f844e1897e5', 10, 'testMessage'))->toOthers();
 });
 require __DIR__.'/auth.php';
